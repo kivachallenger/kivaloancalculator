@@ -8,6 +8,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/*', function(req, res, next) {
+
   request.get("http://api.kivaws.org/v1/teams/search.json?sort_by=member_count&q=" + req.params[0], function(err, response, body) {
     if (err) {
       res.render('index', { title: 'KIVA Impact Calculator', lender: "ERROR", name: "ERROR" });
