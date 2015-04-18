@@ -1,0 +1,14 @@
+var request = require('request');
+
+function getKivaTeam(team) {
+	request.get('http://api.kivaws.org/v1/teams/using_shortname/' + team + '.json', function(err, res, data) {
+		if(err) throw err;
+		if(res.statusCode == 200) {
+			console.log(JSON.parse(data));
+		} else {
+			console.log(res.statusCode + ": BAD REQUEST IN GET KIVA TEAM");
+		}
+	});
+}
+
+getKivaTeam('hp');
