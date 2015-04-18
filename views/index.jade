@@ -2,17 +2,23 @@ extends layout
 
 block content
 
-	div.container
-		div.row
-			div.col-lg-12(style="font-family: 'Montserrat', sans-serif")
-				form
-					paper-input-decorator(label="with core-input")
-						input(is="core-input")
-
 
 	div.container
 		div.row
 			div.col-lg-12(style="font-family: 'Montserrat', sans-serif")
 				
 				h1= title
-				p Welcome to #{title}
+				p Welcome to #{title} Impact Calculator, a KPCB Fellows Challenge Project
+
+
+	div.container
+		div.row
+			div.col-lg-12(style="font-family: 'Montserrat', sans-serif")
+				form(onsubmit="redirect();")
+					paper-input-decorator(label="Enter the name of a lender")
+						input(id="name", is="core-input")
+
+				h1 Creating visualization...
+				h2 ID: #{lender}
+				h2 Name: #{name}
+
