@@ -157,8 +157,6 @@ router.get('/*', function(req, res, next) {
                   });
               }
 
-
-
               //2015-04-19T00:50:04Z
 
               db.close();
