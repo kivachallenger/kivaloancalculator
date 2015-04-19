@@ -34,24 +34,29 @@ router.get('/*', function(req, res, next) {
       teamloans.find({_id: lenderID["teams"][0]["id"], sector: {$not: {$size: 0}}}, function(err, docs) {
         if(err) throw err;
 
-        var loans = docs.loans;
+        var loans = docs[0].loans;
         // Get 10 loans by the team
         var loanssub = loans.slice(0, 10);
         
+        console.log(loanssub);
+
         var dates = [];
 
+
         console.log(loans);
+
+        //console.log(loanssub);
+
+
 
         res.render('index', { title: 'KIVA Impact Calculator', lender: lenderID["teams"][0]["id"], name: lenderID["teams"][0]["name"], dates: [], loans: [] });
 
 
         //2015-04-19T00:50:04Z
 
-
-
         db.close();
 
-      });
+       });
 
 
     }
