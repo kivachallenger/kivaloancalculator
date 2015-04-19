@@ -50,7 +50,7 @@ function get(index) {
 						if(count == Object.keys(hdiTable).length/2) {
 							db.close();
 						}
-						if(count < 5)
+						if(count < 7)
 							get(index + 2);
 					});
 				});
