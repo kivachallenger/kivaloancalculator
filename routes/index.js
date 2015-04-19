@@ -31,10 +31,14 @@ router.get('/*', function(req, res, next) {
       var db = monk('localhost/kiva');
       var teamloans = db.get('teams');
 
-      teamloans.find({_id: lenderID["teams"][0]["id"], sector: {$not: {$size: 0}}}, function(err, docs) {
+      teamloans.find({_id: lenderID["teams"][0]["id"], sector: {$not: {$size: 0}}}, {limit: 10}, function(err, docs) {
         if(err) throw err;
 
-        console.log(docs);
+        var loans = docs.loans;
+        // Get 10 loans by the team
+        var loanssub = loans.slice(0, 10);
+
+        var dates = [];
 
         res.render('index', { title: 'KIVA Impact Calculator', lender: lenderID["teams"][0]["id"], name: lenderID["teams"][0]["name"] });
 
