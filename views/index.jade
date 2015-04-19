@@ -2,17 +2,50 @@ extends layout
 
 block content
 
-	div.container
-		div.row
-			div.col-lg-12(style="font-family: 'Montserrat', sans-serif")
-				form
-					paper-input-decorator(label="with core-input")
-						input(is="core-input")
+
+	div.container(style="background: #74b446; width: auto; color: white;")
+		div.container
+			div.row
+				div.col-lg-12(style="font-family: 'Montserrat', sans-serif")
+					
+					h1= title
+					p Welcome to #{title} Impact Calculator, a KPCB Fellows Challenge Project
 
 
 	div.container
 		div.row
-			div.col-lg-12(style="font-family: 'Montserrat', sans-serif")
-				
-				h1= title
-				p Welcome to #{title}
+			div.col-lg-1
+				i(class="fa fa-search fa-5x", style="margin-top: 70px")
+
+			div.col-lg-11(style="font-family: 'Montserrat', sans-serif")
+				form(onsubmit="return redirect();" style="font-size: 50px;")
+					paper-input-decorator(label="Enter the name of a lender")
+						input(id="name", is="core-input")
+
+		if lender != "ERROR"
+			h2 ID: #{lender} / Name: #{name}
+		else
+			h2 #{query_message}
+
+	if lender != "ERROR"
+		div.container
+			div.row
+				div.col-md-6(style="font-family: 'Montserrat', sans-serif")
+					p dlsjalkdjsakldjaskldjaskldj
+
+				div.col-md-6(style="font-family: 'Montserrat', sans-serif")
+					p dlsjalkdjsakldjaskldjaskld
+	else
+		div.container
+			div.row
+
+
+
+				//- div.col-lg-5
+				//- 	br
+				//- 	img(src="http://d2owh5u2706d1n.cloudfront.net/uploads/challenge/hero_image/2/thumbnail_hd_kiva-girl.jpg" style="height:300px; width: auto;")
+				//- div.col-lg-7(style="font-family: 'Lato', sans-serif")
+				//- 	h3 KIVA Impact Calculator is a web application that assesses the degree of social impact created by KIVA loans by combining publicly available sources.
+				//- 	br
+				//- 	h3 KIVA Impact Calculator is a web application that assesses the degree of social impact created by KIVA loans by combining publicly available sources.
+
