@@ -37,7 +37,7 @@ router.get('/*', function(req, res, next) {
         var loans = docs.loans;
         // Get 10 loans by the team
         var loanssub = loans.slice(0, 10);
-
+        
         var dates = [];
 
         res.render('index', { title: 'KIVA Impact Calculator', lender: lenderID["teams"][0]["id"], name: lenderID["teams"][0]["name"] });
