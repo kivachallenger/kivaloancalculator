@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var request = require('request');
+var monk = require('monk');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -25,7 +26,26 @@ router.get('/*', function(req, res, next) {
     } else if (lenderID["teams"].length == 0) {
       res.render('index', { title: 'KIVA Impact Calculator', lender: "ERROR", name: "ERROR", query_message: "ERROR: QUERY IS INVALID" });
     } else {
-      res.render('index', { title: 'KIVA Impact Calculator', lender: lenderID["teams"][0]["id"], name: lenderID["teams"][0]["name"] });
+
+
+      var db = monk('localhost/kiva');
+      var teamloans = db.get('teams');
+
+      teamloans.find({_id: lenderID["teams"][0]["id"], sector: {$not: {$size: 0}}}, function(err, docs) {
+        if(err) throw err;
+
+        console.log(docs);
+
+        res.render('index', { title: 'KIVA Impact Calculator', lender: lenderID["teams"][0]["id"], name: lenderID["teams"][0]["name"] });
+
+      });
+
+      
+
+
+
+
+
     }
 
     

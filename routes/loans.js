@@ -3,8 +3,12 @@ var router = express.Router();
 var request = require('request');
 
 /* GET home page. */
+router.get('/', function(req, res, next) {
+  res.render('index', { title: 'TEST router', lender: "Test" });
+});
+
 router.get('/*', function(req, res, next) {
-  res.render('index', { title: 'KIVA Impact Calculator', lender: "ERROR1" });
+  res.render('index', { title: 'TEST router', lender: "Test" });
 });
 
 module.exports = router;
