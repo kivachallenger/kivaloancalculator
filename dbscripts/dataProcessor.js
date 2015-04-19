@@ -6,7 +6,7 @@ var loans = db.get('loans');
 
 // Process LOANS
 // For each loan
-	// For each theme in loan
+	// For each sector in loan
 		// Set score = (1 + impact index) * loanAmount
 		// Store back in mongo
 
@@ -31,7 +31,7 @@ var i = 0;
 cursor.each(function(err, doc) {
   if (err) throw err;
   console.log('added to queue');
-  id (doc) q.push(doc); // dispatching doc to async.queue
+  if (doc) q.push(doc); // dispatching doc to async.queue
 });
 
 q.drain = function() {

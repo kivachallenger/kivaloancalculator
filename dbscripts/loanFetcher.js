@@ -22,6 +22,9 @@ function getLoans(teamid, maxpages, callback) {
 		// If the teamid doesn't already exist...
 		if(doc.length == 0) {
 			console.log("success");
+			// get all hdi data
+			// TODO then
+			
 			teams.insert({'_id': teamid, loans: []}, function(err, doc) {
 				// Find out how many loans the team has made
 				getLoansForTeam(teamid, 1, function(err, response, data) {
@@ -62,6 +65,16 @@ function getLoans(teamid, maxpages, callback) {
 								console.log("ERROR: CODE " + response.statusCode);
 							} else {
 								var obj = JSON.parse(data);
+
+								// for each loan in obj,
+									// get location
+									// get country from location
+									// get sector
+									// get impact index from country, sector
+									// get loan amount
+									// score from impact index, loan amount
+									// set score in loan, then
+
 								teams.update(
 									{'_id': teamid},
 									{'$pushAll': {'loans': obj.loans}}, 
