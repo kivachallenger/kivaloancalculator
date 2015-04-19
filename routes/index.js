@@ -32,7 +32,9 @@ router.get('/*', function(req, res, next) {
         var teamloans = db.get('teams');
 
         teamloans.find({_id: lenderID["teams"][0]["id"]}, function(err, docs) {
-            if(err) throw err;
+            if(err) {
+
+            };
 
             var loans = docs[0].loans;
             // Get 10 loans by the team
@@ -40,39 +42,56 @@ router.get('/*', function(req, res, next) {
             
             var dates = [];
 
-            for (var loan in loanssub) {
-              dates.push(loanssub[loan]["posted_date"].substring(0,10));
-            }
+            // for (var loan in loanssub) {
+            //   dates.push(loanssub[loan]["posted_date"].substring(0,10));
+            // }
 
-            dates = arrayUnique(dates);
+            // dates = arrayUnique(dates);
 
-            for (var i = 0; i < dates.length; i++) {
-              dates[i] = dateToUnix(dates[i]);
-            }
+            // for (var i = 0; i < dates.length; i++) {
+            //   dates[i] = dateToUnix(dates[i]);
+            // }
 
             var unixDates = {};
-            var dummy = "";
+            // var dummy = "";
 
-            for (var i = 0; i < dates.length; i++) {
-              dummy = String(dates[i]);
-              unixDates[dummy] = 1;
-            }
+            // for (var i = 0; i < dates.length; i++) {
+            //   dummy = String(dates[i]);
+            //   unixDates[dummy] = 1;
+            // }
 
 
             var loanPick = loanssub[Math.floor(Math.random() * loanssub.length)];
 
+            if (typeof loanPick == 'undefined') {
+              res.render('index', {
+                title: "KIVA Impact Calculator",
+                lender: "ERROR",
+                name: "ERROR",
+                borrower: "ERROR",
+                sector: "ERROR",
+                countryLoan: "ERROR",
+                imageLoan: "ERROR",
+                funded: "ERROR",
+                description: "ERROR",
+                heatMap: "ERROR",
+                query_message: "ERROR: QUERY IS INVALID"
+              });
 
-            res.render('index', {
+            } else {
+               res.render('index', {
                 title: 'KIVA Impact Calculator',
                 lender: lenderID["teams"][0]["id"],
-                name: lenderID["teams"][0]["name"], 
-                borrower: loanPick["name"], 
-                sector: loanPick["sector"],
-                countryLoan: loanPick["location"]["country"],
-                imageLoan: loanPick["image"]["id"],
-                funded: loanPick["funded_amount"],
-                description: loanPick["use"],
-                heatMap: JSON.stringify(unixDates) });
+                name: errorHandle(lenderID["teams"][0]["name"]), 
+                borrower: errorHandle(loanPick["name"]), 
+                sector: errorHandle(loanPick["sector"]),
+                countryLoan: errorHandle(loanPick["location"]["country"]),
+                imageLoan: errorHandle(loanPick["image"]["id"]),
+                funded: errorHandle(loanPick["funded_amount"]),
+                description: errorHandle(loanPick["use"]),
+                heatMap: errorHandle(JSON.stringify(unixDates)) });
+            }
+
 
 
             //2015-04-19T00:50:04Z
@@ -90,6 +109,14 @@ router.get('/*', function(req, res, next) {
 
   });
 });
+
+function errorHandle(term) {
+  if (typeof term != 'undefined') {
+    return term;
+  } else {
+    return "ERROR: FAILED TO MAKE KIVA API CALL";
+  }
+}
 
 function getLoans(teamid, maxpages, callback) {
   console.log("method 3");

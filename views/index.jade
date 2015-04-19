@@ -27,7 +27,7 @@ block content
 					h2 Lender ID: #{lender} / Lender Name: #{name}
 				div.col-md-1
 					a(href="javascript:window.location.href=window.location.href")
-						i(class="fa fa-refresh fa-5x")
+						i(class="fa fa-refresh fa-spin fa-5x")
 		else
 			h2 #{query_message}
 
@@ -39,8 +39,15 @@ block content
 
 		//- 		div.col-md-6(style="font-family: 'Montserrat', sans-serif; background: green;")
 
+		//- 			script(type='text/javascript')
+		//- 				var cal = new CalHeatMap();
+		//- 				console.log("#{heatMap}");
+		//- 				cal.init({
+		//- 					data: "heatMap",
+		//- 					domain: "month",
+		//- 					subDomain: "day"
+		//- 				});
 
-		//- 			h2 This is where the #{heatMap} goes
 		//- 			div#cal-heatmap
 
 		div.container
@@ -48,22 +55,38 @@ block content
 				br
 				div.col-md-4(style="font-family: 'Montserrat', sans-serif;")
 					div.image-container(style="height: 100%;")
-						img(class="img-responsive img-circle", src="http://www.kiva.org/img/s300/"+ imageLoan + ".jpg", style="width: 250px; height: 250px; overflow:hidden;")
+						img(class="img-responsive img-circle", src="http://www.kiva.org/img/s300/"+ imageLoan + ".jpg", style="width: 270px; height: 270px; overflow:hidden;")
 				div.col-md-8(style="font-family: 'Montserrat', sans-serif;")
 					h2 #{borrower}
 					h3 Sector: #{sector}
 					h3 Country: #{countryLoan}
+					h3 Loaned amount: $#{funded}
 					h3 Description: #{description}
-
+			br
+			br
 			div.row
-				div.square(style="")
+				div.col-lg-12
+					ul(style="list-style-type: none;")
+						li(style="height: 250px; width: 250px; float:left; margin-right: 25px; background: red;  text-align: center; color: white")
+							h2 Education
+							h2#dollar(style="margin-top: 60px") $500
+						li(style="height: 250px; width: 250px; float:left; margin-right: 25px; background: orange; text-align: center; color: white")
+							h2 Food
+						li(style="height: 250px; width: 250px; float:left; margin-right: 25px; background: black; text-align: center; color: white")
+							h3 Gender Inequality
+						li(style="height: 250px; width: 250px; float:left; margin-right: 25px; background: blue; text-align: center; color: white")
+							h3 Transportation
+					br
+					
 		
 
 	else
 		div.container
 			div.row
 				div.col-mid-12(style="font-family: 'Lato', sans-serif; margin-left: 15px")
-					h2 KIVA Impact Calculator is a web application that assesses the degree of social impact created by KIVA loans by combining publicly available sources.
+					h2 KIVA Impact Calculator is a web application that assesses the degree of social impact created by KIVA loans by combining publicly available sources
+					h2 Our sources include United Nations' Human Development Index and Quandl.
+					h2 We combine the quantitative needs of the community with the actions of the lending community to infer the magnitude of the impact.
 					br
 					h3 Created with 
 						i(class="fa fa-heart fa-1x", style="color: red;")
