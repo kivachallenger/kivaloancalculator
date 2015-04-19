@@ -26,29 +26,32 @@ block content
 				div.col-lg-11
 					h2 Lender ID: #{lender} / Lender Name: #{name}
 				div.col-md-1
-					a(href="javascript:window.location.href=window.location.href")
-						i(class="fa fa-refresh fa-spin fa-5x")
+					ul(style="list-style-type: none;")
+						li(style="float:right;")
+							i(class="fa fa-file-pdf-o fa-5x")
+						li(style="float:right;")
+							a(href="javascript:window.location.href=window.location.href")
+								i(class="fa fa-refresh fa-spin fa-5x")
 		else
 			h2 #{query_message}
 
 	if lender != "ERROR"
-		//- div.container
-		//- 	div.row
-		//- 		div.col-md-6(style="font-family: 'Montserrat', sans-serif; background: yellow;")
-		//- 			h2 This is where the impact squares go
+		div.container
+			div.row
+				div.col-md-6(style="font-family: 'Montserrat', sans-serif; background: yellow;")
+					h2 This is where the impact squares go
 
-		//- 		div.col-md-6(style="font-family: 'Montserrat', sans-serif; background: green;")
+				div.col-md-6(style="font-family: 'Montserrat', sans-serif; background: green;")
 
-		//- 			script(type='text/javascript')
-		//- 				var cal = new CalHeatMap();
-		//- 				console.log("#{heatMap}");
-		//- 				cal.init({
-		//- 					data: "heatMap",
-		//- 					domain: "month",
-		//- 					subDomain: "day"
-		//- 				});
+					script.
+						var cal = new CalHeatMap();
+						cal.init({
+							data: "#{heatMap}",
+							domain: "month",
+							subDomain: "day"
+						});
 
-		//- 			div#cal-heatmap
+					div#cal-heatmap
 
 		div.container
 			div.row

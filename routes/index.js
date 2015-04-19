@@ -42,24 +42,25 @@ router.get('/*', function(req, res, next) {
             
             var dates = [];
 
-            // for (var loan in loanssub) {
-            //   dates.push(loanssub[loan]["posted_date"].substring(0,10));
-            // }
+            for (var loan in loanssub) {
+              dates.push(loanssub[loan]["posted_date"].substring(0,10));
+            }
 
-            // dates = arrayUnique(dates);
+            dates = arrayUnique(dates);
 
-            // for (var i = 0; i < dates.length; i++) {
-            //   dates[i] = dateToUnix(dates[i]);
-            // }
+            for (var i = 0; i < dates.length; i++) {
+              dates[i] = dateToUnix(dates[i]);
+            }
 
             var unixDates = {};
-            // var dummy = "";
+            var dummy = "";
 
-            // for (var i = 0; i < dates.length; i++) {
-            //   dummy = String(dates[i]);
-            //   unixDates[dummy] = 1;
-            // }
+            for (var i = 0; i < dates.length; i++) {
+              dummy = String(dates[i]);
+              unixDates[dummy] = 1;
+            }
 
+            console.log(unixDates);
 
             var loanPick = loanssub[Math.floor(Math.random() * loanssub.length)];
 
@@ -79,6 +80,10 @@ router.get('/*', function(req, res, next) {
               });
 
             } else {
+
+               // console.log("typeof(unixDates");
+               // console.log(unixDates);
+
                res.render('index', {
                 title: 'KIVA Impact Calculator',
                 lender: lenderID["teams"][0]["id"],
