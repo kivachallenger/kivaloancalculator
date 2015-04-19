@@ -12,7 +12,7 @@ var db = monk('localhost/kiva');
 var quandl = db.get(quandl);
 
 
-quandl.dataset({ source: "WORLDBANK", table: "AFG_NV_AGR_TOTL_ZS,ALB_NV_AGR_TOTL_ZS" }, function(err, response){
+quandl.dataset({ source: "WORLDBANK", table: "AFG_NV_AGR_TOTL_ZS" }, function(err, response) {
     if(err)
         throw err;
  
