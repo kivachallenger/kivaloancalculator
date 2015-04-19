@@ -28,10 +28,8 @@ router.get('/*', function(req, res, next) {
     } else {
 
 
-      var db = monk('localhost/kiva');
+      var db = monk('172.31.74.98/kiva');
       var teamloans = db.get('teams');
-
-
 
       teamloans.find({_id: lenderID["teams"][0]["id"], sector: {$not: {$size: 0}}}, function(err, docs) {
         if(err) throw err;
@@ -44,9 +42,10 @@ router.get('/*', function(req, res, next) {
 
         var dates = [];
 
-        //console.log(loanssub);
 
-        db.close();
+        console.log(loans);
+
+        //console.log(loanssub);
 
 
 
@@ -55,7 +54,7 @@ router.get('/*', function(req, res, next) {
 
         //2015-04-19T00:50:04Z
 
-
+        db.close();
 
        });
 
