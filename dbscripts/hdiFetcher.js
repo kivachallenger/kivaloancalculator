@@ -16,11 +16,15 @@ hdiTable = [
 	'education',
 	 "http://data.undp.org/resource/xn26-t7qa.json",
 	'inequality', 
-	"http://data.undp.org/resource/n8fa-gx39.json"
+	"http://data.undp.org/resource/n8fa-gx39.json",
+	'health',
+	"http://data.undp.org/resource/qdu3-trb6.json",
+	'personal',
+	"http://data.undp.org/resource/p79w-icq5.json"
 ]
 var count = 0;
 
-hdi.insert({'gender': [], 'poverty': [], 'hdi': [], 'education': [], 'inequality': []}, function(err, doc) {
+hdi.insert({'gender': [], 'poverty': [], 'hdi': [], 'education': [], 'inequality': [], 'health' : [], 'personal' : []}, function(err, doc) {
 	get(0);
 });
 
@@ -85,6 +89,14 @@ function processHDI(hdidata, type, callback) {
 				case 'inequality':
 					if(typeof d['_2013_inequality_adjusted_hdi_ihdi_value'] != 'undefined')
 						percent = (1 - d['_2013_inequality_adjusted_hdi_ihdi_value']);
+					break;
+				case 'health':
+					if(typeof d['health_expenditure_out_of_pocket_of_total_expenditure_2011'] != 'undefined')
+						percent = (d['health_expenditure_out_of_pocket_of_total_expenditure_2011']/100);
+					break;
+				case 'personal':
+					if(typeof d['perceptions_of_individual_well_being_overall_life_satisfaction_index_0_least_satisfied_10_most_satisfied_2007_2012'] != 'undefined')
+						percent = (d['perceptions_of_individual_well_being_overall_life_satisfaction_index_0_least_satisfied_10_most_satisfied_2007_2012']/10);
 					break;
 				default:
 					console.log('Missing value in map');
