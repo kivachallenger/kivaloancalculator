@@ -22,22 +22,29 @@ function getLoans(teamid) {
 		// Find out how many loans the team has made
 		getLoansForTeam(teamid, 1, function(err, response, data) {
 			console.log("RESPONSE");
-			console.log(response);
+			console.log(response.headers);
 			if(response.statusCode != 200) {
 				console.log("ERROR: CODE " + response.statusCode);
 				return;
 			}
+			
 			var obj = JSON.parse(data);
 			
 			var numpages = obj.paging.pages;
 			var pagesComplete = 0;
 
 			// Iterate through each page of loans by the team
-			for(var page = 1; page <= 2; page++) {
+			for(var page = 1; page <= numpages; page++) {
 				getLoansForTeam(teamid, page, function(err, response, data) {
+				console.log("RESPONSE");
+				console.log(response.headers);
+				if(response.statusCode != 200) {
+					console.log("ERROR: CODE " + response.statusCode);
+					return;
+				}
 					var obj = JSON.parse(data);
 					// Insert the loans array into mongodb
-					console.log(page + "/" + numpages + ": adding " + obj.loans.length + " loans");
+					//console.log(page + "/" + numpages + ": adding " + obj.loans.length + " loans");
 					teams.update(
 						{'_id': teamid},
 						{'$pushAll': {'loans': obj.loans}}, 
@@ -48,7 +55,7 @@ function getLoans(teamid) {
 								db.close();
 								var end = new Date().getTime();
 								var time = end - start;
-								console.log(time/1000 + "s passed");
+								//console.log(time/1000 + "s passed");
 							}
 						});
 				});
