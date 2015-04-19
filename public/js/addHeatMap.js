@@ -1,13 +1,9 @@
-function addHeatMap(){
+var cal = new CalHeatMap();
 
-	var cal = new CalHeatMap();
-	cal.init({
-		data: "datas.json",
-		domain : "month",
-		subDomain : "day",
-		
+alert(heatMap);
 
-
-	});
-
-}
+cal.init({
+	data: JSON.stringify(heatMap),
+	domain : "month",
+	subDomain : "day",
+});
