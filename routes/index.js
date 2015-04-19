@@ -40,14 +40,18 @@ router.get('/*', function(req, res, next) {
         
         var dates = [];
 
-        res.render('index', { title: 'KIVA Impact Calculator', lender: lenderID["teams"][0]["id"], name: lenderID["teams"][0]["name"] });
-
-      });
-
-      
 
 
+        res.render('index', { title: 'KIVA Impact Calculator', lender: lenderID["teams"][0]["id"], name: lenderID["teams"][0]["name"], dates: [], loans: [] });
 
+
+        //2015-04-19T00:50:04Z
+
+
+
+
+
+      // });
 
 
     }
