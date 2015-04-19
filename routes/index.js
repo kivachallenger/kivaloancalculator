@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 var request = require('request');
 var monk = require('monk');
-// var loanFetcher = require('../dbscripts/loanFetcher');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -28,7 +27,7 @@ router.get('/*', function(req, res, next) {
       res.render('index', { title: 'KIVA Impact Calculator', lender: "ERROR", name: "ERROR", query_message: "ERROR: QUERY IS INVALID" });
     } else {
 
-      // loanFetcher.getLoans(lenderID["teams"][0]["id"], 2, function() {
+      getLoans(lenderID["teams"][0]["id"], 2, function() {
         var db = monk('172.31.74.98/kiva');
         var teamloans = db.get('teams');
 
@@ -39,8 +38,6 @@ router.get('/*', function(req, res, next) {
             // Get 10 loans by the team
             var loanssub = loans.slice(0, 10);
             
-            // console.log(loanssub);
-
             var dates = [];
 
             for (var loan in loanssub) {
@@ -84,7 +81,7 @@ router.get('/*', function(req, res, next) {
 
           });
       
-       // });
+       });
 
     }
 
@@ -93,6 +90,103 @@ router.get('/*', function(req, res, next) {
 
   });
 });
+
+function getLoans(teamid, maxpages, callback) {
+  console.log("method 3");
+  var start = new Date().getTime();
+
+  var db = monk('172.31.74.98/kiva');
+  var teams = db.get('teams');
+
+  // If team exists in database
+  teams.find({'_id': teamid}, function(err, doc) {
+    // If the teamid doesn't already exist...
+    if(doc.length == 0) {
+      console.log("success");
+      // get all hdi data
+      // TODO then
+
+      teams.insert({'_id': teamid, loans: []}, function(err, doc) {
+        // Find out how many loans the team has made
+        getLoansForTeam(teamid, 1, function(err, response, data) {
+          console.log("RESPONSE");
+          console.log(response.headers);
+          if(response.statusCode != 200) {
+            console.log("ERROR: CODE " + response.statusCode);
+            return;
+          }
+
+          var obj = JSON.parse(data);
+          
+          var numpages = obj.paging.pages;
+          var pagesComplete = 0;
+
+          var page = 1;
+
+          if(numpages == 0) {
+            db.close();
+            callback();
+          }
+
+          // Check if a page limit was passed
+          if(maxpages > 0) {
+            numpages = maxpages;
+          }
+
+
+
+          var timeout = setInterval(function() {
+            if(page > numpages) {
+              clearInterval(timeout);
+            }
+            getLoansForTeam(teamid, page, function(err, response, data) {
+              console.log("RESPONSE");
+              console.log(response.headers);
+              if(response.statusCode != 200) {
+                console.log("ERROR: CODE " + response.statusCode);
+              } else {
+                var obj = JSON.parse(data);
+
+                // for each loan in obj,
+                  // get location
+                  // get country from location
+                  // get sector
+                  // get impact index from country, sector
+                  // get loan amount
+                  // score from impact index, loan amount
+                  // set score in loan, then
+
+                teams.update(
+                  {'_id': teamid},
+                  {'$pushAll': {'loans': obj.loans}}, 
+                  function(err, doc) {
+                    pagesComplete++;
+                    if(pagesComplete == numpages) {
+                      // All of the teams loans are stored in the database
+                      db.close();
+                      callback();
+                      //console.log(time/1000 + "s passed");
+                    }
+                  });
+              }
+            });
+            page++;
+          }, 1200);
+        });
+      });
+    } else {
+      db.close();
+      callback();
+    }
+  });
+
+  
+}
+
+function getLoansForTeam(teamid, pagenumber, callback) {
+  request.get('http://api.kivaws.org/v1/teams/' + teamid + '/loans.json?pagenumber=' + pagenumber, callback);
+}
+
 
 var dateToUnix = function(a) {
   var dash = a.indexOf('-');

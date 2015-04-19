@@ -1,11 +1,10 @@
-
 var request = require('request');
 var monk = require('monk');
 
 
-getLoans(5925, 10, function() {
-	console.log("called callback!")
-});
+// getLoans(5925, 10, function() {
+// 	console.log("called callback!")
+// });
 
 // Takes a team id and calls a callback with a list of loans
 // Caches loans in database
@@ -14,7 +13,7 @@ function getLoans(teamid, maxpages, callback) {
 	console.log("method 3");
 	var start = new Date().getTime();
 
-	var db = monk('localhost/kiva');
+	var db = monk('172.31.74.98/kiva');
 	var teams = db.get('teams');
 
 	// If team exists in database
