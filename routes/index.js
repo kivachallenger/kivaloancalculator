@@ -14,7 +14,11 @@ router.get('/*', function(req, res, next) {
       res.render('index', { title: 'KIVA Impact Calculator', lender: "ERROR", name: "ERROR", query_message: "ERROR: FAILED TO MAKE KIVA API CALL" });
     }
 
-    var lenderID = JSON.parse(body);
+    var lenderID = ""
+
+    if (typeof body != 'undefined') {
+      lenderID = JSON.parse(body);
+    }
 
     if (typeof lenderID["teams"] == 'undefined') {
       res.render('index', { title: 'KIVA Impact Calculator', lender: "ERROR", name: "ERROR", query_message: "ERROR: FAILED TO MAKE KIVA API CALL" });
@@ -24,7 +28,7 @@ router.get('/*', function(req, res, next) {
       res.render('index', { title: 'KIVA Impact Calculator', lender: lenderID["teams"][0]["id"], name: lenderID["teams"][0]["name"] });
     }
 
-      
+    
 
 
   });
