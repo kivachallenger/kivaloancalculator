@@ -30,6 +30,7 @@ router.get('/*', function(req, res, next) {
       getLoans(lenderID["teams"][0]["id"], 2, function() {
         var db = monk('172.31.74.98/kiva');
         var teamloans = db.get('teams');
+        var hdi = db.get('hdi');
 
         teamloans.find({_id: lenderID["teams"][0]["id"]}, function(err, docs) {
             if(err) {
@@ -42,61 +43,128 @@ router.get('/*', function(req, res, next) {
             
             var dates = [];
 
-            // for (var loan in loanssub) {
-            //   dates.push(loanssub[loan]["posted_date"].substring(0,10));
-            // }
+            hdi.find({}, function(err, hdidata) {
+              hdidata = hdidata[0];
+              // get the hdisector to use
+              var sectorToHDIMap = {
+                'Agriculture': 'health',
+                'Arts': 'personal',
+                'Clothing': 'personal',
+                'Construction': 'poverty',
+                'Education': 'education',
+                'Entertainment': 'hdi',
+                'Food': 'inequality',
+                'Health': 'health',
+                'Housing': 'poverty',
+                'Manufactoring': 'hdi',
+                'Personal Use': 'personal',
+                'Retail': 'inequality',
+                'Services': 'hdi',
+                'Transportation': 'hdi',
+                'Wholesale': 'inequality'
+              };
 
-            // dates = arrayUnique(dates);
+              // for (var loan in loanssub) {
+              //   dates.push(loanssub[loan]["posted_date"].substring(0,10));
+              // }
 
-            // for (var i = 0; i < dates.length; i++) {
-            //   dates[i] = dateToUnix(dates[i]);
-            // }
+              // dates = arrayUnique(dates);
 
-            var unixDates = {};
-            // var dummy = "";
+              // for (var i = 0; i < dates.length; i++) {
+              //   dates[i] = dateToUnix(dates[i]);
+              // }
 
-            // for (var i = 0; i < dates.length; i++) {
-            //   dummy = String(dates[i]);
-            //   unixDates[dummy] = 1;
-            // }
+              var unixDates = {};
+              // var dummy = "";
 
-
-            var loanPick = loanssub[Math.floor(Math.random() * loanssub.length)];
-
-            if (typeof loanPick == 'undefined') {
-              res.render('index', {
-                title: "KIVA Impact Calculator",
-                lender: "ERROR",
-                name: "ERROR",
-                borrower: "ERROR",
-                sector: "ERROR",
-                countryLoan: "ERROR",
-                imageLoan: "ERROR",
-                funded: "ERROR",
-                description: "ERROR",
-                heatMap: "ERROR",
-                query_message: "ERROR: QUERY IS INVALID"
-              });
-
-            } else {
-               res.render('index', {
-                title: 'KIVA Impact Calculator',
-                lender: lenderID["teams"][0]["id"],
-                name: errorHandle(lenderID["teams"][0]["name"]), 
-                borrower: errorHandle(loanPick["name"]), 
-                sector: errorHandle(loanPick["sector"]),
-                countryLoan: errorHandle(loanPick["location"]["country"]),
-                imageLoan: errorHandle(loanPick["image"]["id"]),
-                funded: errorHandle(loanPick["funded_amount"]),
-                description: errorHandle(loanPick["use"]),
-                heatMap: errorHandle(JSON.stringify(unixDates)) });
-            }
+              // for (var i = 0; i < dates.length; i++) {
+              //   dummy = String(dates[i]);
+              //   unixDates[dummy] = 1;
+              // }
 
 
+              var loanPick = loanssub[Math.floor(Math.random() * loanssub.length)];
 
-            //2015-04-19T00:50:04Z
+              if (typeof loanPick == 'undefined') {
+                res.render('index', {
+                  title: "KIVA Impact Calculator",
+                  lender: "ERROR",
+                  name: "ERROR",
+                  borrower: "ERROR",
+                  sector: "ERROR",
+                  countryLoan: "ERROR",
+                  imageLoan: "ERROR",
+                  funded: "ERROR",
+                  description: "ERROR",
+                  heatMap: "ERROR",
+                  query_message: "ERROR: QUERY IS INVALID"
+                });
 
-            db.close();
+              } else {
+
+                var loanSector = errorHandle(loanPick["sector"]);
+                var country = errorHandle(loanPick["location"]["country"]);
+                var impact_index = {};
+                var sectors = ['Agriculture', 'Arts', 'Clothing', 'Construction', 'Education', 'Entertainment', 'Food', 'Health', 'Housing', 'Manufacturing', 'Personal Use', 'Retail', 'Services', 'Transportation', 'Wholesale'];
+
+                for(var sectorIndex in sectors) {
+                  // console.log("Sector: " + sectors[sectorIndex]);
+                    var hdisecdata = hdidata[sectorToHDIMap[sectors[sectorIndex]]];
+                  for (var countryIndex in hdisecdata) {
+                    //console.log(hdisecdata);
+                    // console.log(countryIndex);
+                    // console.log('country: ' + hdisecdata[countryIndex]);
+                    // console.log('country: ' + hdisecdata[countryIndex].country);
+                    if(hdisecdata[countryIndex].country == country) {
+                      // console.log(sectors[sectorIndex] + ": " + hdisecdata[countryIndex].impactIndex);
+                      impact_index[sectors[sectorIndex]] = hdisecdata[countryIndex].impactIndex;
+                    }
+                  }
+                }
+
+                console.log("dictionary: ");
+                console.log(impact_index);
+
+
+
+
+                 res.render('index', {
+                  title: 'KIVA Impact Calculator',
+                  lender: lenderID["teams"][0]["id"],
+                  name: errorHandle(lenderID["teams"][0]["name"]), 
+                  borrower: errorHandle(loanPick["name"]), 
+                  sector: errorHandle(loanPick["sector"]),
+                  countryLoan: errorHandle(loanPick["location"]["country"]),
+                  imageLoan: errorHandle(loanPick["image"]["id"]),
+                  funded: errorHandle(loanPick["funded_amount"]),
+                  description: errorHandle(loanPick["use"]),
+                  heatMap: errorHandle(JSON.stringify(unixDates)) ,
+                  Agriculture: impact_index["Agriculture"],
+                  Arts: impact_index["Arts"],
+                  Clothing: impact_index["Clothing"],
+                  Construction: impact_index["Construction"],
+                  Education: impact_index["Education"],
+                  Entertainment: impact_index["Entertainment"],
+                  Food: impact_index["Food"],
+                  Health: impact_index["Health"],
+                  Housing: impact_index["Housing"],
+                  Manufacturing: impact_index["Manufacturing"],
+                  Personal: impact_index["Personal"],
+                  Retail: impact_index["Retail"],
+                  Services: impact_index["Services"],
+                  Transportation: impact_index["Transportation"],
+                  Wholesale: impact_index["Wholesale"]
+                  });
+              }
+
+
+
+              //2015-04-19T00:50:04Z
+
+              db.close();
+
+
+            });
 
           });
       
