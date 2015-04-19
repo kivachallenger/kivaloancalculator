@@ -1,0 +1,34 @@
+{
+	"bitwise": true
+	, "curly": true
+	, "es3": true
+	, "immed": true
+	, "latedef": true
+	, "maxcomplexity": 14
+	, "maxdepth": 3
+	, "maxerr": 1000000
+    , "newcap": true
+	, "noarg": true
+	, "noempty": true
+	, "unused": true
+	, "strict": true
+	, "trailing": true
+	, "quotmark": "single"
+
+	, "laxbreak": true
+	, "laxcomma": true
+	, "loopfunc": true
+	, "smarttabs": true
+	, "validthis": true
+
+    , "node": true
+	, "browser": true
+	, "jquery": true
+
+	, "predef": [
+		"b64_hmac_sha1"
+		, "define"
+		, "buster"
+		, "sinon"
+	]
+}

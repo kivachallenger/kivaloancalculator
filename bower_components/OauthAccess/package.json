@@ -1,0 +1,40 @@
+{
+  "name": "OauthAccess",
+  "version": "0.1.2",
+  "description": "Kiva oauth",
+  "main": "Gruntfile.js",
+  "homepage": "http://github.com/kiva/oauthaccess",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/kiva/oauthaccess.git"
+  },
+  "license": [
+    {
+      "type": "MIT",
+      "url": "http://github.com/kiva/oauthaccess/license.txt"
+    }
+  ],
+  "scripts": {
+    "test": "grunt test --verbose",
+    "prepublish": "git ls-files -z dist/ | xargs -0 git update-index --assume-unchanged"
+  },
+  "devDependencies": {
+    "buster": "^0.7.18",
+    "buster-istanbul": "^0.1.10",
+    "grunt": "^0.4.5",
+    "grunt-buster": "0.3.1",
+    "grunt-contrib-jshint": "^0.11.0",
+    "grunt-contrib-uglify": "^0.8.0",
+    "grunt-coveralls": "^1.0.0",
+    "grunt-release": "^0.11.0",
+    "grunt-release-it": "^0.2.1",
+    "grunt-rigger": "^0.6.0",
+    "grunt-shell": "0.7.0"
+  },
+  "keywords": [
+    "kiva",
+    "oauth",
+    "authentication"
+  ],
+  "author": "uglymunky"
+}
