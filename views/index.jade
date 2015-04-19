@@ -22,41 +22,42 @@ block content
 						input(id="name", is="core-input")
 
 		if lender != "ERROR"
-			h2 ID: #{lender} / Name: #{name}
+			div.row
+				div.col-lg-11
+					h2 Lender ID: #{lender} / Lender Name: #{name}
+				div.col-md-1
+					a(href="javascript:window.location.href=window.location.href")
+						i(class="fa fa-refresh fa-5x")
 		else
 			h2 #{query_message}
 
 	if lender != "ERROR"
+		//- div.container
+		//- 	div.row
+		//- 		div.col-md-6(style="font-family: 'Montserrat', sans-serif; background: yellow;")
+		//- 			h2 This is where the impact squares go
+
+		//- 		div.col-md-6(style="font-family: 'Montserrat', sans-serif; background: green;")
+
+
+		//- 			h2 This is where the #{heatMap} goes
+		//- 			div#cal-heatmap
+
 		div.container
 			div.row
-				div.col-md-6(style="font-family: 'Montserrat', sans-serif; background: yellow;")
-					h2 This is where the impact squares go
+				br
+				div.col-md-4(style="font-family: 'Montserrat', sans-serif;")
+					div.image-container(style="height: 100%;")
+						img(class="img-responsive img-circle", src="http://www.kiva.org/img/s300/"+ imageLoan + ".jpg", style="width: 250px; height: 250px; overflow:hidden;")
+				div.col-md-8(style="font-family: 'Montserrat', sans-serif;")
+					h2 #{borrower}
+					h3 Sector: #{sector}
+					h3 Country: #{countryLoan}
+					h3 Description: #{description}
 
-				div.col-md-6(style="font-family: 'Montserrat', sans-serif; background: green;")
-					h2 This is where the heatmap goes
-					div#cal-heatmap
-
-		div.container
 			div.row
-				div.col-md-4(style="font-family: 'Montserrat', sans-serif; background: blue;")
-					h2 This is where the picture goes
-				div.col-md-8(style="font-family: 'Montserrat', sans-serif; background: red;")
-					h2 This is where the description of the loans go
-			div.row
-				div.col-md-12(style="font-family: 'Montserrat', sans-serif; background: black;")
-					core-animated-pages(selected="{{page}}", transition="hero-transition slide-up slide-down cross-fade list-cascade", on-core-animated-pages-transition-end)
-						section(layout, vertical)
-							div(class="tall-toolbar categories", slide-down)
-								span Your name here
-
-							div.tiles-container
-								div.tile(style="background-color:#ccc;", layout, vertical)
-									div.tile-top(flex)
-									div.tile-bottom(style="background-color:#aaa;") Leaderboard
-
-								div.tile(hero-id="category-image", hero, style="background-color:#ffff8d;", layout, vertical)
-									div.tile-top(flex)
-									div.tile-bottom(hero-id="footer", hero, style="background-color:#ffeb3b") General Knowledge
+				div.square(style="")
+		
 
 	else
 		div.container
