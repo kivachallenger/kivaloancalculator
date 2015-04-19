@@ -66,37 +66,37 @@ function get(index) {
 function processHDI(hdidata, type, callback) {
 	console.log(type);
 	for(var i = 0; i < hdidata.length; i++) {
-		var percent = -1;
+		var percent = 0;
 		var d = hdidata[i];
 		if(typeof hdidata != 'undefined') {
 			switch(type) {
 				case 'gender':
-					if(typeof d['human_development_index_value_female_2013'] != 'undefined')
+					if(typeof d['human_development_index_value_female_2013'] != 'undefined' && d['human_development_index_value_female_2013'] != '..')
 						percent = (1 - d['human_development_index_value_female_2013']/100.0);
 					break;
 				case 'poverty':
-					if(typeof d['multidimensional_poverty_index_value_specifications_2010'] != 'undefined')
+					if(typeof d['multidimensional_poverty_index_value_specifications_2010'] != 'undefined' && d['multidimensional_poverty_index_value_specifications_2010'] != '..')
 						percent = (1 - d['multidimensional_poverty_index_value_specifications_2010']);
 					break;
 				case 'hdi':
-					if(typeof d['_2013_hdi_value'] != 'undefined')
+					if(typeof d['_2013_hdi_value'] != 'undefined' && d['_2013_hdi_value'] != '..')
 						percent = (1 - d['_2013_hdi_value']);
 					break;
 				case 'education':
-					if(typeof d['population_with_at_least_some_secondary_education_aged_25_and_above_2005_2012'] != 'undefined' && typeof d['primary_school_dropout_rates_of_primary_school_cohort_2003_2012'] != 'undefined')
+					if(typeof d['population_with_at_least_some_secondary_education_aged_25_and_above_2005_2012'] != 'undefined' && typeof d['primary_school_dropout_rates_of_primary_school_cohort_2003_2012'] != 'undefined' && d['population_with_at_least_some_secondary_education_aged_25_and_above_2005_2012'] != '..' && d['primary_school_dropout_rates_of_primary_school_cohort_2003_2012'] != '..')
 						percent = (1 - d['population_with_at_least_some_secondary_education_aged_25_and_above_2005_2012']/100.0) * (1 - d['primary_school_dropout_rates_of_primary_school_cohort_2003_2012']/100.0);
 					break;
 				case 'inequality':
-					if(typeof d['_2013_inequality_adjusted_hdi_ihdi_value'] != 'undefined')
+					if(typeof d['_2013_inequality_adjusted_hdi_ihdi_value'] != 'undefined' && d['_2013_inequality_adjusted_hdi_ihdi_value'] != '..')
 						percent = (1 - d['_2013_inequality_adjusted_hdi_ihdi_value']);
 					break;
 				case 'health':
-					if(typeof d['health_expenditure_out_of_pocket_of_total_expenditure_2011'] != 'undefined')
+					if(typeof d['health_expenditure_out_of_pocket_of_total_expenditure_2011'] != 'undefined' && d['health_expenditure_out_of_pocket_of_total_expenditure_2011'] != '..')
 						percent = (d['health_expenditure_out_of_pocket_of_total_expenditure_2011']/100);
 					break;
 				case 'personal':
-					if(typeof d['perceptions_of_individual_well_being_overall_life_satisfaction_index_0_least_satisfied_10_most_satisfied_2007_2012'] != 'undefined')
-						percent = (d['perceptions_of_individual_well_being_overall_life_satisfaction_index_0_least_satisfied_10_most_satisfied_2007_2012']/10);
+					if(typeof d['perceptions_of_individual_well_being_overall_life_satisfaction_index_0_least_satisfied_10_most_satisfied_2007_2012'] != 'undefined' && d['perceptions_of_individual_well_being_overall_life_satisfaction_index_0_least_satisfied_10_most_satisfied_2007_2012'] != '..')
+						percent = (d['perceptions_of_individual_well_being_overall_life_satisfaction_index_0_least_satisfied_10_most_satisfied_2007_2012']/100.0);
 					break;
 				default:
 					console.log('Missing value in map');
