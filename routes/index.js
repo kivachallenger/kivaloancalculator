@@ -28,10 +28,10 @@ router.get('/*', function(req, res, next) {
     } else {
 
 
-      var db = monk('localhost/kiva');
+      var db = monk('172.31.74.98/kiva');
       var teamloans = db.get('teams');
 
-      teamloans.find({_id: lenderID["teams"][0]["id"], sector: {$not: {$size: 0}}}, {limit: 10}, function(err, docs) {
+      teamloans.find({_id: lenderID["teams"][0]["id"], sector: {$not: {$size: 0}}}, function(err, docs) {
         if(err) throw err;
 
         var loans = docs.loans;
@@ -40,7 +40,7 @@ router.get('/*', function(req, res, next) {
         
         var dates = [];
 
-
+        console.log(loans);
 
         res.render('index', { title: 'KIVA Impact Calculator', lender: lenderID["teams"][0]["id"], name: lenderID["teams"][0]["name"], dates: [], loans: [] });
 
@@ -49,9 +49,9 @@ router.get('/*', function(req, res, next) {
 
 
 
+        db.close();
 
-
-      // });
+      });
 
 
     }
