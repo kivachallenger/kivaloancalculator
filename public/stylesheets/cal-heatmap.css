@@ -7,6 +7,7 @@
 .cal-heatmap-container .graph
 {
 	font-family: "Lucida Grande", Lucida, Verdana, sans-serif;
+	color: white;
 }
 
 .cal-heatmap-container .graph-label
@@ -41,7 +42,7 @@
 }
 
 .cal-heatmap-container .qi {
-	background-color: #999;
+	background-color: #fff;
 	fill: #999
 }
 
