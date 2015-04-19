@@ -31,14 +31,22 @@ router.get('/*', function(req, res, next) {
       var db = monk('localhost/kiva');
       var teamloans = db.get('teams');
 
-      teamloans.find({_id: lenderID["teams"][0]["id"], sector: {$not: {$size: 0}}}, {limit: 10}, function(err, docs) {
+
+
+      teamloans.find({_id: lenderID["teams"][0]["id"], sector: {$not: {$size: 0}}}, function(err, docs) {
         if(err) throw err;
 
-        var loans = docs.loans;
+        var loans = docs[0].loans;
         // Get 10 loans by the team
         var loanssub = loans.slice(0, 10);
         
+        console.log(loanssub);
+
         var dates = [];
+
+        //console.log(loanssub);
+
+        db.close();
 
 
 
@@ -49,9 +57,7 @@ router.get('/*', function(req, res, next) {
 
 
 
-
-
-      // });
+       });
 
 
     }
